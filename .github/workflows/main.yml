@@ -10,15 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v2
+      # - name: Checkout the repository
+      #   uses: actions/checkout@v2
         
       - name: show current path
         run: |
          #show crrnt path
-         echo pwd
+         echo down dir 
          pwd
+         echo 'list of files'
          ls
+         echo 'make new reddy dir'
          mkdir reddy
+         echo 'again listing of files'
          ls -a
 
