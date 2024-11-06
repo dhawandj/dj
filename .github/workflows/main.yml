@@ -1,27 +1,16 @@
-name: SSH Connection Test
-
-on:
-  push:
-    branches:
-      - main  # or your desired branch
-
+name: remote ssh command
+on: [push]
 jobs:
-  ssh-test:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v2
-        
-      - name: show current path
-        run: |
-         #show crrnt path
-         echo down dir 
-         pwd
-         echo 'list of files'
-         ls
-         echo 'make new reddy dir'
-         mkdir reddy
-         echo 'again listing of files'
-         ls 
 
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.1.0
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: whoami
