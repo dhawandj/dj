@@ -13,26 +13,8 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v2
         
-      - name: Set up Ed25519 SSH private key
+      - name: show current path
         run: |
-          # Create .ssh directory if not already present
-          mkdir -p ~/.ssh
-          
-          # Write Ed25519 private key to file
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-          
-          # Set correct permissions for the private key
-          chmod 600 ~/.ssh/id_ed25519
-          
-          # Add Hostinger's server to known hosts (optional but recommended for security)
-          ssh-keyscan -p 65002 82.112.239.136 >> ~/.ssh/known_hosts
+         #show crrnt path
+         echo pwd
 
-      - name: Test SSH Connection
-        run: |
-          echo "Attempting to SSH into Hostinger server..."
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p 65002 u334800547@82.112.239.136 "echo 'SSH connection successful!'"
-        
-      - name: Handle SSH Connection Failure
-        if: failure()
-        run: |
-          echo "SSH connection failed! Please check the credentials and server configuration."
