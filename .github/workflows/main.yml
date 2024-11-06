@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      # - name: Checkout the repository
-      #   uses: actions/checkout@v2
+      - name: Checkout the repository
+        uses: actions/checkout@v2
         
       - name: show current path
         run: |
@@ -23,5 +23,5 @@ jobs:
          echo 'make new reddy dir'
          mkdir reddy
          echo 'again listing of files'
-         ls -a
+         ls 
 
