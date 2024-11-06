@@ -17,4 +17,5 @@ jobs:
         run: |
          #show crrnt path
          echo pwd
+         pwd
 
