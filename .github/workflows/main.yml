@@ -12,11 +12,20 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          echo 'redd who am i'
+          echo 'Starting SSH commands execution'
           whoami
           ls -la
           cd domains/filmsocket.com
-          ls     # List files in the 'domains' directory
-          git clone https://github.com/dhawandj/dj.git
-          ls
-          # Add other commands here if needed
+          ls   # List files in the 'filmsocket.com' directory
+
+          # Check if the git repository exists, and if so, pull the latest changes
+          if [ -d "dj" ]; then
+            echo "Repository already cloned, pulling latest changes..."
+            cd dj
+            git pull origin main
+          else
+            echo "Cloning repository..."
+            git clone https://github.com/dhawandj/dj.git
+          fi
+          
+          ls   # List the files after cloning or pulling
