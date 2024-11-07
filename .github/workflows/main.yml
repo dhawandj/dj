@@ -1,31 +1,49 @@
 on: [push]
+
 jobs:
   build:
-    name: Build
+    name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: Execute remote SSH commands using password
-      uses: appleboy/ssh-action@v1.1.0
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          echo 'Starting SSH commands execution'
-          whoami
-          ls -la
-          cd domains/filmsocket.com
-          ls   # List files in the 'filmsocket.com' directory
-
-          # Check if the git repository exists, and if so, pull the latest changes
-          if [ -d "dj" ]; then
-            echo "Repository already cloned, pulling latest changes..."
-            cd dj
-            git pull origin main
-          else
-            echo "Cloning repository..."
-            git clone https://github.com/dhawandj/dj.git
-          fi
-          
-          ls   # List the files after cloning or pulling
+      - name: Execute remote SSH commands
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e  # Exit immediately if a command exits with a non-zero status
+            echo 'Starting SSH commands execution on the remote server...'
+            
+            # Navigate to the project directory
+            cd domains/filmsocket.com || exit 1
+            echo "In the directory: $(pwd)"
+            
+            # Check if the directory exists and pull latest changes, else clone the repository
+            if [ -d "dj/.git" ]; then
+              echo "Repository already cloned, pulling the latest changes..."
+              cd dj
+              git fetch --all
+              git reset --hard origin/main
+            else
+              echo "Cloning the repository..."
+              git clone https://github.com/dhawandj/dj.git
+              cd dj
+            fi
+            
+            # List files to confirm contents
+            echo "Current files in $(pwd):"
+            ls -la
+            
+            # Additional commands, if needed
+            echo "Running additional setup or maintenance commands if required..."
+            
+            # Example Laravel setup (optional)
+            # Uncomment if your deployment requires these commands:
+            # php artisan migrate --force
+            # php artisan cache:clear
+            # php artisan config:cache
+            # php artisan route:cache
+            
+            echo "Deployment completed successfully!"
