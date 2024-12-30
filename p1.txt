@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+    // locks stocks barrels
+    int locks , stocks, barrels, t_sales,flag=0;
+    float commission;
+    printf("enter the number of locks");
+    scanf("%d",&locks);
+    if (locks<=0||locks>70) {
+        flag = 1;
+    }
+    printf("enter the number of stocks");
+    scanf("%d",&stocks);
+    if (stocks<=0||stocks>70) {
+        flag = 1;
+    }
+    printf("enter the number of barrels");
+    scanf("%d",&barrels);
+    if (barrels<=0||barrels>70) {
+        flag = 1;
+    }
+
+    if (flag == 1) {
+        printf("invalid input ");
+        exit(0);
+    }
+
+    t_sales=(locks*45)+(stocks*30)+(barrels*25);
+    // if < 1000 or < 1800 < ;
+        if (t_sales<=1000) {
+            commission = 0.10*1000;
+        }
+        else if (t_sales<1800) {
+            commission = 0.10*1000;
+            commission = commission +(0.15*(t_sales-1000));
+
+        }else{
+            commission = 0.10*1000;
+            commission = commission + 0.15*800;
+            commission = commission +(0.20*(t_sales-1800));
+        }
+
+        printf("total sales is %d ",t_sales);
+        printf("total sales is %f ",commission);
+    return 0;
+}
+
+
+
+#include<stdio.h>
+int main() {
+    int a, b, c, match;
+    printf("Enter 3 integers which are sides of a triangle: ");
+    scanf("%d%d%d", &a, &b, &c);
+
+    match = 0;
+    if (a == b) match += 1;
+    if (a == c) match += 2;
+    if (b == c) match += 3;
+
+    // Triangle inequality check
+    if ((a + b <= c) || (b + c <= a) || (a + c <= b)) {
+        printf("not a triangle\n");
+        return 0;
+    }
+
+    // Determine triangle type
+    if (match == 0) {
+        printf("scalene\n");
+    } else if (match == 1 || match == 2 || match == 3) {
+        printf("isosceles\n");
+    } else {
+        printf("Equilateral\n");
+    }
+    return 0;
+}
